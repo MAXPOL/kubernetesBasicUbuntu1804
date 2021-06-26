@@ -1,0 +1,55 @@
+- hosts: cluster
+
+  tasks:
+
+  - name: System update
+    command: apt update -y
+
+  - name: Deleting hosts files
+    file:
+      path: /etc/hosts
+      state: absent
+
+  - name: Copy hosts file
+    copy:
+      src: data/hosts
+      dest: /etc/
+      mode: '0777'
+
+  - name: Install docker.io
+    apt:
+      name: docker.io
+      state: present
+
+  - name: Copy k8sRepo.sh
+    copy:
+      src: data/k8sRepo.sh
+      dest: /
+      mode: '0777'
+
+  - name: Chmod +x /etc/k8sRepo.sh
+    command: chmod +x /k8sRepo.sh
+
+  - name: Start script add repo k8s
+    command: sh /k8sRepo.sh
+    
+  - name: Install kubeadm
+    apt:
+      name: kubeadm
+      state: present
+
+  - name: Install kubectl
+    apt:
+      name: kubectl
+      state: present
+
+  - name: Install kubelet
+    apt:
+      name: kubelet
+      state: present
+
+  - name: swapoff -a
+    command: swapoff -a
+
+  - name: Add in Kubernetes cluster
+    command: # Add you kubeadm join ->
