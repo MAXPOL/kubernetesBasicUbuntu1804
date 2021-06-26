@@ -23,15 +23,15 @@
 
   - name: Copy k8sRepo.sh
     copy:
-      src: data/k8sRepo.sh
+      src: data/addRepo.sh
       dest: /
       mode: '0777'
 
-  - name: Chmod +x /etc/k8sRepo.sh
-    command: chmod +x /k8sRepo.sh
+  - name: Chmod +x /addRepo.sh
+    command: chmod +x /addRepo.sh
 
   - name: Start script add repo k8s
-    command: sh /k8sRepo.sh
+    command: sh /addRepo.sh
     
   - name: Install kubeadm
     apt:
